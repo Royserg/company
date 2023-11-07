@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { Node } from './interfaces/node';
 import { CreateNodeDto } from './dto/create-node.dto';
+import { UpdateNodeParentDto } from './dto/update-node-parent.dto';
 
 describe('AppController', () => {
   let app: TestingModule;
@@ -16,8 +17,9 @@ describe('AppController', () => {
         {
           provide: AppService,
           useValue: {
-            getNodeChildren: jest.fn(),
             createNode: jest.fn(),
+            getNodeChildren: jest.fn(),
+            updateNodeParent: jest.fn(),
           },
         },
       ],
@@ -89,6 +91,47 @@ describe('AppController', () => {
       const expected = [mockNode];
 
       expect(result).toEqual(expected);
+    });
+  });
+
+  describe('updateNodeParent', () => {
+    it(`should call service method 'updateNodeParent' with nodeId and dto`, () => {
+      const nodeId = 'NODE_ID';
+      const updateNodeParentDto: UpdateNodeParentDto = {
+        newParentId: 'NEW_PARENT_ID',
+      };
+
+      jest.spyOn(appService, 'updateNodeParent');
+
+      appController.updateNodeParent(nodeId, updateNodeParentDto);
+
+      expect(appService.updateNodeParent).toHaveBeenCalledTimes(1);
+      expect(appService.updateNodeParent).toHaveBeenCalledWith(
+        nodeId,
+        updateNodeParentDto,
+      );
+    });
+
+    it(`should return updated Node`, () => {
+      const nodeId = 'NODE_ID';
+      const updateNodeParentDto: UpdateNodeParentDto = {
+        newParentId: 'NEW_PARENT_ID',
+      };
+      const updatedNode: Node = {
+        id: nodeId,
+        height: 1,
+        name: 'NodeName',
+        parentId: updateNodeParentDto.newParentId,
+      };
+
+      jest.spyOn(appService, 'updateNodeParent').mockReturnValue(updatedNode);
+
+      const result = appController.updateNodeParent(
+        nodeId,
+        updateNodeParentDto,
+      );
+
+      expect(result).toEqual(updatedNode);
     });
   });
 });
