@@ -14,6 +14,8 @@ jest.mock('./data/memory-db', () => ({
 }));
 
 import { AppService } from './app.service';
+import { HttpException, HttpStatus, NotFoundException } from '@nestjs/common';
+import { CreateNodeDto } from './dto/create-node.dto';
 
 describe('AppService', () => {
   let service: AppService;
@@ -24,6 +26,48 @@ describe('AppService', () => {
     }).compile();
 
     service = app.get<AppService>(AppService);
+  });
+
+  describe('createNode', () => {
+    it('should throw NotFoundException if parent node not found', () => {
+      const createNodeDto: CreateNodeDto = {
+        name: 'NODE_NAME',
+        parentId: 'NON_EXISTING_PARENT_ID',
+      };
+
+      let hasThrown = false;
+
+      try {
+        service.createNode(createNodeDto);
+      } catch (error) {
+        hasThrown = true;
+        expect(error).toBeInstanceOf(NotFoundException);
+        expect((error as HttpException).getStatus()).toBe(HttpStatus.NOT_FOUND);
+        expect((error as HttpException).getResponse()).toEqual({
+          error: 'Not Found',
+          message: 'Parent node not found',
+          statusCode: 404,
+        });
+      }
+
+      expect(hasThrown).toBe(true);
+    });
+
+    it('should return newly created Node', () => {
+      const createNodeDto: CreateNodeDto = {
+        name: 'NODE_NAME',
+        parentId: mockRoot.id,
+      };
+
+      const result = service.createNode(createNodeDto);
+
+      expect(result).toEqual({
+        id: expect.any(String),
+        name: createNodeDto.name,
+        parentId: mockRoot.id,
+        height: mockRoot.height + 1,
+      });
+    });
   });
 
   describe('getNodeChildren', () => {
