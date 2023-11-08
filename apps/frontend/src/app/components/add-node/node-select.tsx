@@ -34,6 +34,7 @@ const NodeSelect: FC<NodeSelect> = ({ onChange }) => {
       onValueChange={(value) => {
         if (onChange) onChange(value);
       }}
+      defaultValue="root"
     >
       <SelectTrigger>
         <SelectValue placeholder="Select a parent" />
