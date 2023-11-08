@@ -14,7 +14,9 @@ export function App() {
       <div className="py-5"></div>
 
       <section className="container flex h-full w-3/4 flex-col">
-        <div className="text-lg font-semibold">Ceo</div>
+        <div className="m-1 w-max rounded-sm border-2 border-black p-1 px-2 text-lg font-semibold">
+          CEO
+        </div>
         <Nodes parentId="root" />
       </section>
     </main>
