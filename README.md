@@ -33,3 +33,13 @@ $ nx serve frontend
 ```
 
 open React app visiting: [localhost:4200](localhost:4200)
+
+---
+
+If setup went correct, when visiting localhost:4200 you should see
+
+![frontend page](./docs/frontend.png)
+
+- Add new Node
+
+![add new node](./docs/adding-new-node.gif)
