@@ -24,7 +24,7 @@ or each separately
 $ nx serve api
 ```
 
-Api is served on port 3000: [localhost:3000/api/nodes/root/children](localhost:3000/api/nodes/root/children)
+Api is served on port 3000: [localhost:3000/api/nodes/root/children](http://localhost:3000/api/nodes/root/children)
 
 - Run frontend
 
@@ -32,7 +32,7 @@ Api is served on port 3000: [localhost:3000/api/nodes/root/children](localhost:3
 $ nx serve frontend
 ```
 
-open React app visiting: [localhost:4200](localhost:4200)
+open React app visiting: [localhost:4200](http://localhost:4200)
 
 ---
 
