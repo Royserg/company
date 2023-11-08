@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FC, useState } from "react";
-import { addNode } from "../services/add-node";
-import { Button } from "./ui/button";
+import { addNode } from "../../services/add-node";
+import { Button } from "../ui/button";
 import {
   Dialog,
   DialogContent,
@@ -9,9 +9,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "./ui/dialog";
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
+} from "../ui/dialog";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
+import { NodeSelect } from "./node-select";
 
 const AddNode: FC = () => {
   const queryClient = useQueryClient();
@@ -24,8 +25,9 @@ const AddNode: FC = () => {
     onSuccess: () => {
       // Refetch children of the parent node
       queryClient.invalidateQueries({ queryKey: ["nodes", parentId] });
-      // Clear input field
+      // Clear input fields
       setNodeName("");
+      setParentId("root");
       // Close Dialog
       setOpen(false);
     },
@@ -54,20 +56,16 @@ const AddNode: FC = () => {
               onChange={(e) => setNodeName(e.target.value)}
             />
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            {/* TODO: dropdown with parent selection */}
+          <div className="grid w-full grid-cols-4 items-center gap-4">
             <Label htmlFor="parentId" className="text-right">
-              Parent ID
+              Parent
             </Label>
-            <Input
-              id="parentId"
-              value={parentId}
-              placeholder="Parent id"
-              className="col-span-3"
-              onChange={(e) => setParentId(e.target.value)}
-            />
+            <div className="col-span-3">
+              <NodeSelect onChange={(value) => setParentId(value)} />
+            </div>
           </div>
         </div>
+
         <DialogFooter>
           <Button
             type="submit"
