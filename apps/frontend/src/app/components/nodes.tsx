@@ -1,7 +1,7 @@
-import { FC } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getNodeChildren } from "../services/get-node-children";
+import { FC } from "react";
 import { generateBackgroundColor } from "../lib/bg-color-generator";
+import { getNodeChildren } from "../services/get-node-children";
 
 interface NodesProps {
   parentId: string;
@@ -22,7 +22,7 @@ const Nodes: FC<NodesProps> = ({ parentId }) => {
       <ul className="w-full">
         {data?.data?.map((node) => {
           return (
-            <li key={node.id} className="flex flex-col">
+            <li key={node.id} className="my-1 flex flex-col">
               <span
                 className="w-max rounded-sm p-1"
                 style={{
